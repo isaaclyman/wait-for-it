@@ -1,0 +1,19 @@
+{
+  "name": "waits-up",
+  "version": "1.0.0",
+  "description": "Simple asynchrony for modern apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaaclyman/waits-up.git"
+  },
+  "author": "Isaac Lyman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isaaclyman/waits-up/issues"
+  },
+  "homepage": "https://github.com/isaaclyman/waits-up#readme"
+}
