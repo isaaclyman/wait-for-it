@@ -1,6 +1,6 @@
-import IWhenable from "./iwhenable"
+import IWhenable from './iwhenable'
 
-const noop = value => {}
+const noop = _ => {}
 
 export class Whatable<T> implements IWhenable {
   _internalPromise: Promise<T>
@@ -8,8 +8,8 @@ export class Whatable<T> implements IWhenable {
   private internalResolve: (value: T | PromiseLike<T>) => void
   private callbacks: Array<(error: any) => any> = []
 
-  constructor (value: null | PromiseLike<T> | T) {
-    this._internalPromise = new Promise((resolve) => {
+  constructor(value: null | PromiseLike<T> | T) {
+    this._internalPromise = new Promise(resolve => {
       this.internalResolve = resolve
     })
 
@@ -18,7 +18,7 @@ export class Whatable<T> implements IWhenable {
     }
   }
 
-  set (value: T): void {
+  set(value: any): void {
     this.notifyCallbacks()
     this.internalResolve(value)
     this.internalResolve = noop
@@ -29,7 +29,7 @@ export class Whatable<T> implements IWhenable {
     this.callbacks.push(callback)
   }
 
-  private notifyCallbacks (): void {
+  private notifyCallbacks(): void {
     this.callbacks.forEach(cb => cb(null))
     this.callbacks.splice(0, this.callbacks.length)
   }
