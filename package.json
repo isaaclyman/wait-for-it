@@ -4,7 +4,7 @@
   "description": "Simple asynchrony for modern apps",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/isaaclyman/waits-up/issues"
   },
-  "homepage": "https://github.com/isaaclyman/waits-up#readme"
+  "homepage": "https://github.com/isaaclyman/waits-up#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.4000"
+  }
 }

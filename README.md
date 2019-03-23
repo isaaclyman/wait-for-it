@@ -115,9 +115,9 @@ onEvent(() => When(opWhenable).then(() => {
 
 #### Whenable
 
-`new Whenable(null?, Behavior?)`: When constructed without arguments or with `null`, this returns an incomplete Whenable. The `push()` method must be used on the Whenable or it will never complete. See the Behavior section for details on the optional second argument.
+`new Whenable()`: When constructed without arguments, this returns an incomplete Whenable. The `push()` method must be used on the Whenable or it will never complete. See the Behavior section for details on the optional second argument.
 
-`new Whenable([promise1, promise2, ..promiseN], Behavior?)`: When constructed with an array of Promises, this returns a Whenable that will complete when every Promise has completed. If one or more of the Promises fails, the other Promises will still be awaited.
+`new Whenable([promise1, promise2, ..promiseN], Behavior?)`: When constructed with an array of Promises, this returns a Whenable that will complete when every Promise has completed. If one or more of the Promises fails, the other Promises will still be awaited. See the Behaviors section below for details on the optional second argument.
 
 `new Whenable([whenable1, whenable2, ..whenableN], Behavior?)`: When constructed with an array of Whenables, Whatables or Chainables, this returns a Whenable that will complete when each one has completed.
 
@@ -125,7 +125,7 @@ onEvent(() => When(opWhenable).then(() => {
 
 #### Whatable
 
-`new Whatable(null?)`: When constructed without arguments or with `null`, this returns an incomplete Whatable. The `set()` method must be used on the Whatable or it will never complete.
+`new Whatable()`: When constructed without arguments or with `undefined`, this returns an incomplete Whatable. The `set()` method must be used on the Whatable or it will never complete.
 
 `new Whatable(promise)`: When constructed with a Promise or Promise-like, this returns a Whatable that will complete when the Promise completes and return the value resolved by the Promise.
 
