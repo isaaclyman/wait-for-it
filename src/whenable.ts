@@ -14,11 +14,8 @@ export class Whenable implements IWhenable {
   private internalResolve: () => void
   private internalReject: (errors: any[]) => void
 
-  constructor(
-    elements?: null | Array<WhenableElement>,
-    private behavior?: Behavior
-  ) {
-    if (!!elements) {
+  constructor(elements?: Array<WhenableElement>, private behavior?: Behavior) {
+    if (Array.isArray(elements)) {
       this.queue.push(...elements)
       this.listenQueue(elements)
     }

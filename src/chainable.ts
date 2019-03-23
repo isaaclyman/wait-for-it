@@ -19,10 +19,7 @@ export class Chainable implements IWhenable {
       this.queueNext()
     }
 
-    this._internalPromise = new Promise((resolve, reject) => {
-      this.internalResolve = () => resolve(null)
-      this.internalReject = reject
-    })
+    this._internalPromise = this.queueNext()
   }
 
   push(...fns: Array<ChainableElement>): void {
@@ -30,17 +27,20 @@ export class Chainable implements IWhenable {
       return
     }
 
-    this.queue.push(...fns)
+    if (!this.queue.length) {
+      this.queue.push(...fns)
+      this._internalPromise = this.queueNext()
+    }
   }
 
   _done(callback: (error: any) => any): void {
     throw new Error('Method not implemented.')
   }
 
-  private queueNext(): void {
+  private queueNext(): Promise<any> {
     if (!this.queue.length) {
       this.completeChainable()
-      return
+      return Promise.resolve()
     }
 
     const firstFn = this.queue.shift()
@@ -49,27 +49,32 @@ export class Chainable implements IWhenable {
     const promiseResult = <PromiseLike<any>>firstResult
     const whenableResult = <IWhenable>firstResult
     if (promiseResult.then) {
-      promiseResult.then(
-        () => this.queueNext(),
-        err => {
-          if (this.behavior === Behavior.FAIL_FAST) {
-            this.completeChainable(err)
+      return new Promise((resolve, reject) => {
+        promiseResult.then(
+          () => resolve(this.queueNext()),
+          err => {
+            if (this.behavior === Behavior.FAIL_FAST) {
+              reject(this.completeChainable(err))
+              return
+            }
+
+            resolve(this.queueNext())
           }
-        }
-      )
-      return
+        )
+      })
     }
 
     if (whenableResult._done) {
-      whenableResult._done(err => {
-        if (err && this.behavior === Behavior.FAIL_FAST) {
-          this.completeChainable(err)
-          return
-        }
+      return new Promise((resolve, reject) => {
+        whenableResult._done(err => {
+          if (err && this.behavior === Behavior.FAIL_FAST) {
+            reject(this.completeChainable(err))
+            return
+          }
 
-        this.queueNext()
+          resolve(this.queueNext())
+        })
       })
-      return
     }
 
     throw new Error(`Only Promise-likes, Whenables, Whatables and Chainables may be returned by a Chainable function.

@@ -8,12 +8,12 @@ export class Whatable<T> implements IWhenable {
   private internalResolve: (value: T | PromiseLike<T>) => void
   private callbacks: Array<(error: any) => any> = []
 
-  constructor(value: null | PromiseLike<T> | T) {
+  constructor(value?: PromiseLike<T> | T) {
     this._internalPromise = new Promise(resolve => {
       this.internalResolve = resolve
     })
 
-    if (value !== null) {
+    if (value !== undefined) {
       this.internalResolve(value)
     }
   }
